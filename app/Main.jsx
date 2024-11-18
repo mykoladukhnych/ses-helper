@@ -1,12 +1,10 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import Navigation from './navigation/Navigation'
 
 const Main = () => {
-  return (
-    <View>
-      <Text>Main</Text>
-    </View>
-  )
+    return (
+        <Navigation />
+    )
 }
 
 export default Main
