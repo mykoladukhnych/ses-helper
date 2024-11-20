@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginLayout from './layouts/LoginLayout';
 import MainLayout from './layouts/MainLayout';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { StatusBar, useColorScheme } from 'react-native';
 import { MyDarkTheme, MyLightTheme } from '../theme/theme';
-import { onAuthStateChanged } from 'firebase/auth';
-import { FIREBASE_AUTH } from '../../firebaseConfig';
-import { setLoading, setUser } from '../store/slices/authSlice';
-
 
 const Navigation = () => {
     const user = useSelector(state => state.auth.user);

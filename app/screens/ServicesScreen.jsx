@@ -1,21 +1,28 @@
-import { View, Text, Button } from 'react-native'
-import React from 'react'
-import { FIREBASE_AUTH } from '../../firebaseConfig'
+import { View, ActivityIndicator, Button } from 'react-native'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../store/slices/authSlice'
+import { fetchServices } from '../services'
+import Card from '../components/Card'
 
-const ServicesScreen = () => {
-	const authState = useSelector(state => state.auth);
+const ServicesScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
+	const services = useSelector(state => state.services);
+	const servicesList = [];
+
+	useEffect(() => {
+		fetchServices(dispatch);
+	}, []);
+
+	for (let key in services.data) {
+		servicesList.push(<Card data={services.data[key]} screenName={key} navigation={navigation} key={key} />);		
+	}	
 
 	return (
 		<View>
-			<Text>ServicesScreen</Text>
-			<Button title='Click' onPress={() => { console.log(authState) }}/>
-			<Button title='Вихід' onPress={() => {
-				FIREBASE_AUTH.signOut();
-				dispatch(logout());
-			}} />
+			{
+				services.loading ? <ActivityIndicator size={'large'} color={'#000FF'} /> : servicesList
+			}
+			
 		</View>
 	)
 }

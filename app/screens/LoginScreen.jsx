@@ -1,8 +1,9 @@
 import { View, TextInput, Button, StyleSheet, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react';
-import {  useDispatch, useSelector } from 'react-redux';
 
+import {  useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../store/slices/authSlice';
+
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 

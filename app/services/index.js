@@ -1,6 +1,7 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { FIREBASE_DB } from "../../firebaseConfig";
 import { setUser, setLoading } from "../store/slices/authSlice";
+import { setServices } from "../store/slices/servicesSlice";
 
 export const fetchUserData = async (id, email, token, dispatch) => {
     try {
@@ -17,5 +18,24 @@ export const fetchUserData = async (id, email, token, dispatch) => {
         dispatch(setError(error.message));
     } finally {
         dispatch(setLoading(false));
+    }
+}
+
+export const fetchServices = async (dispatch) => {
+    try {
+        const services = {};
+
+        const querySnapshot = await getDocs(collection(FIREBASE_DB, "/services"));        
+        querySnapshot.forEach((doc) => {
+            services[doc.id] = doc.data();
+        });
+        if (services) {
+            dispatch(setServices({
+                warranty: services.warranty,
+                easypro: services.easypro
+            }))
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
