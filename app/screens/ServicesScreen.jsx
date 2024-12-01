@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, Button } from 'react-native'
+import { ActivityIndicator, ScrollView, Text } from 'react-native'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchServices } from '../services'
@@ -7,23 +7,31 @@ import Card from '../components/Card'
 const ServicesScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const services = useSelector(state => state.services);
-	const servicesList = [];
+	const { theme } = useSelector(state => state.theme);
+	const renderItems = [];
 
 	useEffect(() => {
 		fetchServices(dispatch);
 	}, []);
 
 	for (let key in services.data) {
-		servicesList.push(<Card data={services.data[key]} screenName={key} navigation={navigation} key={key} />);		
+		renderItems.push(
+			<Card data={{
+					left: <Text style={{fontSize: 16, fontWeight: 700, color: theme.colors.text,}}>{services.data[key].title}</Text>,
+				}} 
+				screenName={key} 
+				navigation={navigation} 
+				key={key} 
+			/>
+		);		
 	}	
 
 	return (
-		<View>
+		<ScrollView>
 			{
-				services.loading ? <ActivityIndicator size={'large'} color={'#000FF'} /> : servicesList
+				services.loading ? <ActivityIndicator size={'large'} color={theme.colors.text} /> : renderItems
 			}
-			
-		</View>
+		</ScrollView>
 	)
 }
 

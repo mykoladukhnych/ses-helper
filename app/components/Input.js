@@ -1,17 +1,17 @@
-import { StyleSheet, TextInput, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { MyDarkTheme, MyLightTheme } from '../theme/theme';
+import { useSelector } from 'react-redux';
 
 const Input = ({type='text', keyboardType, setOutsideState, placeholder}) => {
     const [value, setValue] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const theme = useColorScheme();
+    const { currentTheme, theme } = useSelector(state => state.theme);
 
     const icon = type === 'text' ? 
-        value !== '' ? <MaterialCommunityIcons name="backspace" size={20} color={theme === 'dark' ? MyDarkTheme.colors.text : MyLightTheme.colors.text} /> : null
-        : type === 'password' ? <MaterialCommunityIcons name={isPasswordVisible ? 'eye' : 'eye-off'} size={20} color="#000" />
+        value !== '' ? <MaterialCommunityIcons name="backspace" size={20} color={theme.colors.text} /> : null
+        : type === 'password' ? <MaterialCommunityIcons name={isPasswordVisible ? 'eye' : 'eye-off'} size={20} color={currentTheme === 'dark' ? 'white' : 'black'} />
         : null;
 
     const togglePasswordVisibility = () => {
@@ -26,17 +26,17 @@ const Input = ({type='text', keyboardType, setOutsideState, placeholder}) => {
     return (
         <View style={{
             ...styles.container,
-            backgroundColor: theme === 'dark' ? MyDarkTheme.colors.input : MyLightTheme.colors.background,
-            borderColor: theme === 'dark' ? MyDarkTheme.colors.border : MyLightTheme.colors.border,
+            backgroundColor: currentTheme === 'dark' ? theme.colors.input : theme.colors.background,
+            borderColor: theme.colors.border,
         }}>
             <TextInput
                 style={{
                     ...styles.input,
-                    backgroundColor: theme === 'dark' ? MyDarkTheme.colors.input : MyLightTheme.colors.background,
-                    color: theme === 'dark' ? MyDarkTheme.colors.text : MyLightTheme.colors.text,
+                    backgroundColor: currentTheme === 'dark' ? theme.colors.input : theme.colors.background,
+                    color: theme.colors.text,
                 }}
                 placeholder={placeholder}
-                placeholderTextColor={theme === 'dark' ? MyDarkTheme.colors.placeholder : MyLightTheme.colors.placeholder}
+                placeholderTextColor={theme.colors.placeholder}
                 secureTextEntry={type === 'text' ? false : !isPasswordVisible}
                 value={value}
                 keyboardType={keyboardType}

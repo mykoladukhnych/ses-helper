@@ -1,4 +1,4 @@
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../../firebaseConfig";
 import { setUser, setLoading } from "../store/slices/authSlice";
 import { setServices } from "../store/slices/servicesSlice";
@@ -32,10 +32,24 @@ export const fetchServices = async (dispatch) => {
         if (services) {
             dispatch(setServices({
                 warranty: services.warranty,
-                easypro: services.easypro
+                easypro: services.easypro,
+                devicesetup: services.devicesetup
             }))
         }
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const updateEasyProPricelist = async (newPricelist) => {
+    try {
+        const docRef = doc(FIREBASE_DB, "/services", 'easypro');
+
+        await updateDoc(docRef, {
+            pricelist: newPricelist
+        });
+        alert("arrayOne успішно оновлено!");
+    } catch (error) {
+        alert("Помилка при оновленні arrayOne:", error);
     }
 }

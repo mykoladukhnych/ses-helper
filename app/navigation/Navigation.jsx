@@ -3,21 +3,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import LoginLayout from './layouts/LoginLayout';
 import MainLayout from './layouts/MainLayout';
 import { useSelector } from 'react-redux';
-import { StatusBar, useColorScheme } from 'react-native';
-import { MyDarkTheme, MyLightTheme } from '../theme/theme';
+import { StatusBar } from 'react-native';
 
 const Navigation = () => {
     const user = useSelector(state => state.auth.user);
-
+    const {currentTheme, theme} = useSelector(state => state.theme);
+    
     return (
-        <NavigationContainer theme={useColorScheme() === 'dark' ? MyDarkTheme : MyLightTheme}>
+        <NavigationContainer theme={theme}>
             {
                 user ? <MainLayout /> : <LoginLayout />
             }
             <StatusBar 
                 barStyle={
-                    useColorScheme() === 'dark' ? 'light-content' : 'dark-content'} 
-                    backgroundColor={useColorScheme() === 'dark' ? MyDarkTheme.colors.card : MyLightTheme.colors.card}
+                    currentTheme === 'dark' ? 'light-content' : 'dark-content'} 
+                    backgroundColor={theme.colors.background}
                 />
         </NavigationContainer>
     )

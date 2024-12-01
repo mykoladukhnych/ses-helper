@@ -1,42 +1,31 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, useColorScheme } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import { MyDarkTheme, MyLightTheme } from '../theme/theme';
+import { useSelector } from 'react-redux';
 
-const Accordion = ({ data, value=0 }) => {
+const Accordion = ({ header={left: null, right: null}, content=null }) => {
     const [collapsed, setCollapsed] = useState(true);
-    const theme = useColorScheme();
+    const { currentTheme, theme } = useSelector(state => state.theme);
 
     const toggleAccordion = () => {
         setCollapsed(!collapsed);
-    };
+    }; 
 
     return (
         <View style={{
             ...styles.container,
-            backgroundColor: theme === 'dark' ? MyDarkTheme.colors.card : MyLightTheme.colors.card,
-            borderColor: theme === 'dark' ? MyDarkTheme.colors.border : MyLightTheme.colors.border,
+            backgroundColor: theme.colors.card,
+            borderColor: theme.colors.border,
         }}>
             <TouchableOpacity style={styles.titleContainer} onPress={toggleAccordion}>
-                <Text style={{
-                    ...styles.titleText,
-                    color: theme === 'dark' ? MyDarkTheme.colors.text : MyLightTheme.colors.text,
-                }}>{data.title}</Text>
-                <Text style={{
-                    ...styles.titlePrice,
-                    color: theme === 'dark' ? MyDarkTheme.colors.text : MyLightTheme.colors.text,
-                }}>{ (data.price * value).toFixed(2) }</Text>
+                { header.left || null } 
+                { header.right || null }
             </TouchableOpacity>
             <Collapsible style={{
                 ...styles.content,
-                backgroundColor: theme === 'dark' ? MyDarkTheme.colors.cardChild : MyLightTheme.colors.border,
+                backgroundColor: currentTheme === 'dark' ? theme.colors.cardChild : theme.colors.border,
             }} collapsed={collapsed}>
-                <View>
-                    <Text style={styles.descrPrice}>{data.price * 100}%</Text>
-                    {
-                        data.descr.map((item, i) => <Text style={{...styles.contentText, color: theme === 'dark' ? MyDarkTheme.colors.text : MyLightTheme.colors.text}} key={i}>{item}</Text>)
-                    }
-                </View>
+                { content }
             </Collapsible>
         </View>
     );
@@ -46,6 +35,8 @@ const styles = StyleSheet.create({
     container: {
         borderTopWidth: 1,
         borderBottomWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
         overflow: 'hidden',
     },
     titleContainer: {
@@ -55,34 +46,22 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
-    titleText: {
-        fontSize: 16,
-        fontWeight: '700'
-    },
-    titlePrice: {
-        fontSize: 16,
-        fontWeight: '700'
-    },
     content: {
         padding: 20,
-        position: 'relative'
+        position: 'relative',
+
     },
     descrPrice: {
 		position: 'absolute',
-		top: -20,
-		right: -20,
+		top: 0,
+		right: 0,
 		padding: 15,
 		backgroundColor: '#3b48f7',
 		fontSize: 15,
 		fontWeight: '900',
 		color: '#fff',
 		borderBottomLeftRadius: 5
-	},
-    contentText: {
-        fontSize: 14,
-        fontWeight: '500',
-		marginTop: 15,
-    }
+	}    
 });
 
 export default Accordion;
