@@ -20,7 +20,12 @@ const WarrantyScreen = () => {
                                                                         left: <Text style={{...styles.titleText, color: theme.colors.text}}>{item.title}</Text>,  
                                                                         right: <Text style={{...styles.titleText, color: theme.colors.text}}>{(item.price * devicePrice).toFixed(2)}</Text>
                                                                     }} 
-                                                                    content={item.descr.map((el, i) => <Text style={{...styles.contentText, color: theme.colors.text}} key={i}>{el}</Text>)} key={i}/>);
+                                                                    content={{
+                                                                        corners: {
+                                                                            topRight: (item.price * 100).toFixed(0) + '%'
+                                                                        },
+                                                                        data: item.descr.map((el, i) => <Text style={{...styles.contentText, color: theme.colors.text}} key={i}>{el}</Text>)
+                                                                    }} key={i}/>);
             
             setRenderItems(result);
             setLoading(false);

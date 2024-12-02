@@ -2,10 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     loading: false,
-    data: {
-        warranty: {},
-        easypro: {}
-    }
+    data: {}
 }
 
 const servicesSlice = createSlice({
@@ -16,8 +13,9 @@ const servicesSlice = createSlice({
             state.loading = action.payload;
         },
         setServices: (state, action) => {
-            state.data.warranty = action.payload.warranty;
-            state.data.easypro = action.payload.easypro;
+            for (let key in action.payload) {
+                state.data[key] = action.payload[key];                
+            }            
         }
     }
 });

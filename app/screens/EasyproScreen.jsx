@@ -20,39 +20,30 @@ const EasyproScreen = () => {
 		setLoading(true);
 
 		const result = await data.pricelist.filter(item => item.model.startsWith(model)).map((item, i) => {
-			
 			return (
 				<Accordion 
 					header={{
 						left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text}}>{item.model}</Text>
-					}} 
-	
-					content={[
-						item.easypro ? 
-							<Card data={{
-									left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{'Easy Pro'}</Text>, 
-									right: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{item.easypro}</Text>
-								}} 
-								pressable={false}
-								key={'easypro'}
-							/> : null,
-						item.easypro2 ? 
-							<Card data={{
-									left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{'Easy Pro +2'}</Text>, 
-									right: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{item.easypro2}</Text>
-								}} 
-								pressable={false}
-								key={'easypro2'}
-							/> : null,
-						item.easypro3 ? 
-							<Card data={{
-									left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{'Easy Pro +3'}</Text>, 
-									right: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{item.easypro3}</Text>
-								}} 
-								pressable={false}
-								key={'easypro3'}
-							/> : null
-					]}
+					}} 	
+					content={{
+						corners: {},
+						data: Object.keys(item).sort().map((key, i) => {
+							if (key !== 'model' && item[key]) {
+								return (
+									<Card data={{
+											left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{data.description[key].title}</Text>, 
+											right: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{item[key]}</Text>
+										}} 
+										pressable={false}
+										key={key}
+									/>
+								)
+							} else {
+								return null;
+							}
+														
+						})
+					}}
 					key={i}
 				/>
 			)  
