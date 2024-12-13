@@ -8,7 +8,7 @@ import SettingsScreen from '../../screens/SettingsScreen';
 import WarrantyScreen from '../../screens/WarrantyScreen';
 import EasyproScreen from '../../screens/EasyproScreen';
 import InfoScreen from '../../screens/InfoScreen';
-import OrdersScreen from '../../screens/InfoScreen';
+import OrdersScreen from '../../screens/OrdersScreen';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { updateEasyProPricelist } from '../../services';
 import EPDetailsScreen from '../../screens/EPDetailsScreen';
 import { useNavigation } from '@react-navigation/native';
+import PDFViewer from '../../screens/PDFViewer';
 
 const MainLayoutStack = createNativeStackNavigator();
 const MainLayoutTabs = createBottomTabNavigator();
@@ -132,8 +133,7 @@ const MainTabs = () => {
 const MainLayout = () => {
     const {theme} = useSelector(state => state.theme);
     const {user} = useSelector(state => state.auth);
-    const navigation = useNavigation();
-    
+    const navigation = useNavigation();    
 
     return(
         <MainLayoutStack.Navigator>
@@ -163,10 +163,6 @@ const MainLayout = () => {
                                         </Pressable>
                                     : null
                                 }
-                                <Pressable style={{marginRight: 15}} >
-                                    <MaterialCommunityIcons name="information" size={24} color={theme.colors.text} onPress={() => navigation.navigate('epdetails')} />
-                                </Pressable>  
-                                
                             </>
                     ),
                 }} 
@@ -178,8 +174,18 @@ const MainLayout = () => {
                 headerTitleAlign: 'center'}} 
             />
             <MainLayoutStack.Screen 
+                name='pdfviewer' 
+                component={PDFViewer} 
+                options={{headerTitle: 'PDF Viewer', 
+                headerTitleAlign: 'center'}} 
+            />
+            <MainLayoutStack.Screen 
                 name='Settings' 
                 component={SettingsScreen}
+                options={{
+                    headerTitle: 'Налаштування', 
+                    headerTitleAlign: 'center'
+                }} 
             />
         </MainLayoutStack.Navigator>
     )

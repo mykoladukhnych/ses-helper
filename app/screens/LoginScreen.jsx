@@ -36,7 +36,18 @@ const LoginScreen = () => {
 				dispatch(setLoading(false));
 			}
 		} catch (error) {
-			alert(error);
+			switch(error.code) {
+				case 'auth/invalid-credential':
+					alert('Невірна пошта або пароль!');
+					break;
+				case 'auth/too-many-requests':
+					alert('Забагато спроб. Зверніться до адміністратора!')
+					break;
+				default:
+					alert(error);
+					break;
+			}
+			dispatch(setLoading(false));
 		}
     }
 

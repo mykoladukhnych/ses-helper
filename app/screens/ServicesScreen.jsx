@@ -18,8 +18,9 @@ const ServicesScreen = ({ navigation }) => {
 		renderItems.push(
 			<Card data={{
 					left: <Text style={{fontSize: 16, fontWeight: 700, color: theme.colors.text,}}>{services.data[key].title}</Text>,
+					payload: services.data[key].url ? services.data[key].url : null
 				}} 
-				screenName={key} 
+				screenName={key === 'warranty' || key === 'easypro' ? key : 'pdfviewer'} 
 				navigation={navigation} 
 				key={key} 
 			/>

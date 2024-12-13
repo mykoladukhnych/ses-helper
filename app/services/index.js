@@ -29,11 +29,14 @@ export const fetchServices = async (dispatch) => {
         querySnapshot.forEach((doc) => {
             services[doc.id] = doc.data();
         });
+
         if (services) {
-            dispatch(setServices({
+            dispatch(setServices({   
+                // ...services,             
                 warranty: services.warranty,
                 easypro: services.easypro,
-                devicesetup: services.devicesetup
+                devicesetup: services.devicesetup,
+                hanguptv: services.hanguptv
             }))
         }
     } catch (error) {

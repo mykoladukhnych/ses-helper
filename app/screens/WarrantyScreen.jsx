@@ -35,9 +35,9 @@ const WarrantyScreen = () => {
 	}, [data, devicePrice]);
 
     return (
-        <View>
+        <View style={{flex: 1}}>
             <Input placeholder={'Введіть вартість пристрою...'} keyboardType='numeric' setOutsideState={setDevicePrice}/>
-            <ScrollView>
+            <ScrollView style={{flex: 1}}>
                 {
                     loading ? <ActivityIndicator size={'large'} color={theme.colors.text} /> : renderItems
                 }

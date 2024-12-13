@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useSelector } from 'react-redux';
 
-const Card = ({data={left: null, right: null, payload: null}, pressable=true, screenName, parentRoute, navigation}) => {
+const Card = ({data={left: null, right: null, payload: null}, pressable=true, screenName, navigation}) => {
 	const { theme } = useSelector(state => state.theme);
 
 	return (
@@ -14,7 +14,7 @@ const Card = ({data={left: null, right: null, payload: null}, pressable=true, sc
 						borderColor: theme.colors.border,
 					}} 
 					onPress={
-						() => navigation ? navigation.navigate(screenName) : null
+						() => navigation.navigate(screenName, {url: data.payload})
 					}>
 						{ data.left || null }
 						{ data.right || null }

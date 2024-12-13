@@ -4,7 +4,6 @@ import { doc, updateDoc, arrayUnion  } from "firebase/firestore";
 import {FIREBASE_DB} from '../../firebaseConfig';
 
 import Input from '../components/Input';
-import Card from '../components/Card';
 import Accordion from '../components/Accordion';
 import { useSelector } from 'react-redux';
 
@@ -30,13 +29,16 @@ const EasyproScreen = () => {
 						data: Object.keys(item).sort().map((key, i) => {
 							if (key !== 'model' && item[key]) {
 								return (
-									<Card data={{
+									<Accordion 
+										header={{
 											left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{data.description[key].title}</Text>, 
-											right: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{item[key]}</Text>
-										}} 
-										pressable={false}
-										key={key}
-									/>
+											right: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{item[key].toFixed(2)}</Text>
+										}}
+										content={{
+											corners: {},
+											data: data.description[key].descr.map((el, i) => <Text style={{fontSize: 12, fontWeight: 400, marginVertical: 5, color: theme.colors.text,}} key={i}>{el}</Text>)
+										}}
+										key={i}/>
 								)
 							} else {
 								return null;
