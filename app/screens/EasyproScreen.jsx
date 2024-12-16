@@ -1,8 +1,5 @@
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, ActivityIndicator, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { doc, updateDoc, arrayUnion  } from "firebase/firestore";
-import {FIREBASE_DB} from '../../firebaseConfig';
-
 import Input from '../components/Input';
 import Accordion from '../components/Accordion';
 import { useSelector } from 'react-redux';
@@ -18,7 +15,7 @@ const EasyproScreen = () => {
 		const processData = async () => {
 		setLoading(true);
 
-		const result = await data.pricelist.filter(item => item.model.startsWith(model)).map((item, i) => {
+		const result = await data.pricelist.filter(item => item.model.toLowerCase().startsWith(model.toLowerCase())).map((item, i) => {
 			return (
 				<Accordion 
 					header={{
@@ -58,7 +55,7 @@ const EasyproScreen = () => {
 	}, [data, model]);
 
 	return (
-		<View>
+		<View style={{flex: 1}}>
 			<Input
 				placeholder={'Введіть модель...'}	
 				setOutsideState={setModel}			

@@ -12,7 +12,7 @@ import OrdersScreen from '../../screens/OrdersScreen';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateEasyProPricelist } from '../../services';
 import EPDetailsScreen from '../../screens/EPDetailsScreen';
 import { useNavigation } from '@react-navigation/native';
@@ -133,7 +133,8 @@ const MainTabs = () => {
 const MainLayout = () => {
     const {theme} = useSelector(state => state.theme);
     const {user} = useSelector(state => state.auth);
-    const navigation = useNavigation();    
+    const navigation = useNavigation();   
+    const dispatch = useDispatch(); 
 
     return(
         <MainLayoutStack.Navigator>
@@ -158,7 +159,7 @@ const MainLayout = () => {
                             <>
                                 {
                                     user.admin ? 
-                                        <Pressable style={{marginRight: 15}} onPress={updateEasyProPricelist} >
+                                        <Pressable style={{marginRight: 15}} onPress={() => {updateEasyProPricelist(dispatch)}} >
                                             <MaterialCommunityIcons name="database-refresh" size={24} color={theme.colors.text} />
                                         </Pressable>
                                     : null

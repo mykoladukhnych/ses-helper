@@ -2,6 +2,8 @@ import { doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore"
 import { FIREBASE_DB } from "../../firebaseConfig";
 import { setUser, setLoading } from "../store/slices/authSlice";
 import { setServices } from "../store/slices/servicesSlice";
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 
 export const fetchUserData = async (id, email, token, dispatch) => {
     try {
@@ -44,15 +46,29 @@ export const fetchServices = async (dispatch) => {
     }
 }
 
-export const updateEasyProPricelist = async (newPricelist) => {
+export const updateEasyProPricelist = async (dispatch) => {
     try {
-        const docRef = doc(FIREBASE_DB, "/services", 'easypro');
-
-        await updateDoc(docRef, {
-            pricelist: newPricelist
+        const result = await DocumentPicker.getDocumentAsync({
+            type: 'application/json', // Підтримка тільки JSON-файлів
         });
-        alert("arrayOne успішно оновлено!");
+
+        if (!result.canceled) {
+            const fileContent = await FileSystem.readAsStringAsync(result.assets[0].uri);
+
+            try {
+                const docRef = doc(FIREBASE_DB, "/services", 'easypro');        
+                await updateDoc(docRef, {
+                    pricelist: JSON.parse(fileContent)
+                });
+                fetchServices(dispatch)
+                alert("arrayOne успішно оновлено!");
+            } catch (error) {
+                alert("Помилка при оновленні arrayOne:", error);
+            }
+        } else {
+            alert('Вибір файлу скасовано');
+        }
     } catch (error) {
-        alert("Помилка при оновленні arrayOne:", error);
-    }
+        alert('Помилка вибору файлу:', error);
+    }    
 }
