@@ -58,7 +58,12 @@ const EasyproScreen = () => {
 		<View style={{flex: 1}}>
 			<Input
 				placeholder={'Введіть модель...'}	
-				setOutsideState={setModel}			
+				setOutsideState={setModel}	
+				style={{
+					container: {
+						paddingVertical: 10
+					}
+				}}	
 			/>
 
 			<ScrollView>

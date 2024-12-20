@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 
-const Input = ({type='text', keyboardType, setOutsideState, placeholder}) => {
+const Input = ({type='text', keyboardType, setOutsideState, placeholder, style={container: {}, input: {}}}) => {
     const [value, setValue] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { currentTheme, theme } = useSelector(state => state.theme);
@@ -28,12 +28,14 @@ const Input = ({type='text', keyboardType, setOutsideState, placeholder}) => {
             ...styles.container,
             backgroundColor: currentTheme === 'dark' ? theme.colors.input : theme.colors.background,
             borderColor: theme.colors.border,
+            ...style.container
         }}>
             <TextInput
                 style={{
                     ...styles.input,
                     backgroundColor: currentTheme === 'dark' ? theme.colors.input : theme.colors.background,
                     color: theme.colors.text,
+                    ...style.input
                 }}
                 placeholder={placeholder}
                 placeholderTextColor={theme.colors.placeholder}
@@ -46,7 +48,6 @@ const Input = ({type='text', keyboardType, setOutsideState, placeholder}) => {
                 }}
             />
             <TouchableOpacity 
-                style={styles.icon} 
                 onPress={type === 'text' ? clearField : togglePasswordVisibility}
             >
                     {icon}
@@ -57,7 +58,7 @@ const Input = ({type='text', keyboardType, setOutsideState, placeholder}) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 5,
+        marginVertical: 5,
         flexDirection: 'row',
         alignItems: 'center',
         borderTopWidth: 1,
@@ -67,12 +68,10 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        padding: 10,
+        padding: 5,
         fontSize: 16,
-        fontWeight: '700'
-    },
-    icon: {
-        padding: 10,
+        fontWeight: '700',
+        autoCapitalize: 'none'
     },
   });
 

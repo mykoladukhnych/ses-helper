@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 const Accordion = ({ 
     header={
         left: null, 
-        right: null
+        right: null,
     },
     content={
         corners: {
@@ -16,6 +16,11 @@ const Accordion = ({
             bottomRight: null
         },
         data: null
+    },
+    style={
+        container: {},
+        titleContainer: {},
+        content: {}
     }
 }) => {
     const [collapsed, setCollapsed] = useState(true);
@@ -30,14 +35,16 @@ const Accordion = ({
             ...styles.container,
             backgroundColor: theme.colors.card,
             borderColor: theme.colors.border,
+            ...style.container
         }}>
-            <TouchableOpacity style={styles.titleContainer} onPress={toggleAccordion}>
+            <TouchableOpacity style={{...styles.titleContainer, ...style.titleContainer}} onPress={toggleAccordion}>
                 { header.left || null } 
                 { header.right || null }
             </TouchableOpacity>
             <Collapsible style={{
                 ...styles.content,
                 backgroundColor: currentTheme === 'dark' ? theme.colors.cardChild : theme.colors.border,
+                ...style.content
             }} collapsed={collapsed}>
                 { content.corners.topLeft ? <Text style={{...styles.contentCorners, ...styles.topLeft, }}>{content.corners.topLeft}</Text> : null }
                 { content.corners.topRight ? <Text style={{...styles.contentCorners, ...styles.topRight, }}>{content.corners.topRight}</Text> : null }

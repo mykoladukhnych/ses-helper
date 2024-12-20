@@ -14,7 +14,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEasyProPricelist } from '../../services';
-import EPDetailsScreen from '../../screens/EPDetailsScreen';
 import { useNavigation } from '@react-navigation/native';
 import PDFViewer from '../../screens/PDFViewer';
 
@@ -59,7 +58,7 @@ const MainTabs = () => {
                     tabBarActiveTintColor: theme.colors.text
                 }}
             />
-            {/* <MainLayoutTabs.Screen 
+            <MainLayoutTabs.Screen 
                 name='Info' 
                 component={InfoScreen} 
                 options={{
@@ -80,9 +79,9 @@ const MainTabs = () => {
                     ),
                     tabBarActiveTintColor: theme.colors.text
                 }}
-            /> */}
+            />
             
-            {/* <MainLayoutTabs.Screen 
+            <MainLayoutTabs.Screen 
                 name='Orders' 
                 component={OrdersScreen} 
                 options={{
@@ -103,7 +102,7 @@ const MainTabs = () => {
                     ),
                     tabBarActiveTintColor: theme.colors.text
                 }}
-            /> */}
+            />
             <MainLayoutTabs.Screen 
                 name='NonWarrantyRepair' 
                 component={NonWarrantyRepairScreen} 
@@ -167,12 +166,6 @@ const MainLayout = () => {
                             </>
                     ),
                 }} 
-            />
-            <MainLayoutStack.Screen 
-                name='epdetails' 
-                component={EPDetailsScreen} 
-                options={{headerTitle: 'Що таке Easy Pro', 
-                headerTitleAlign: 'center'}} 
             />
             <MainLayoutStack.Screen 
                 name='pdfviewer' 

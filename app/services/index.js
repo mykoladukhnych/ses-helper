@@ -49,7 +49,7 @@ export const fetchServices = async (dispatch) => {
 export const updateEasyProPricelist = async (dispatch) => {
     try {
         const result = await DocumentPicker.getDocumentAsync({
-            type: 'application/json', // Підтримка тільки JSON-файлів
+            type: 'application/json', 
         });
 
         if (!result.canceled) {
