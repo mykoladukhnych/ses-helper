@@ -5,7 +5,7 @@ import Accordion from '../components/Accordion';
 import { useSelector } from 'react-redux';
 
 const EasyproScreen = () => {
-	const data = useSelector(state => state.services.data.easypro);
+	const data = useSelector(state => state.services.easypro);
 	const { theme } = useSelector(state => state.theme);
 	const [model, setModel] = useState('');
 	const [renderItems, setRenderItems] = useState([]);

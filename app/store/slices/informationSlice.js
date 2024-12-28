@@ -1,24 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    loading: false,
-    data: {}
-};
-
 const informationSlice = createSlice({
     name: 'information',
-    initialState,
+    initialState: {},
     reducers: {
-        setInfoLaoding: (state, action) => {
-            state.loading = action.payload;
-        },
-        setInfoData: (state, action) => {
+        setInformationData: (state, action) => {
             for (let key in action.payload) {
-                state.data[key] = action.payload[key];                
+                state[key] = action.payload[key];                
             }            
         }
     }
 });
 
-export const { setInfoData, setInfoLaoding } = informationSlice.actions;
+export const { setInformationData } = informationSlice.actions;
 export default informationSlice.reducer;

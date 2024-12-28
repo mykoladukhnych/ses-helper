@@ -1,43 +1,47 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchInfo } from '../services';
+import { useSelector } from 'react-redux';
 import Card from '../components/Card';
+import { useFirebaseData } from '../hooks/useFirebaseData';
 
 const InfoScreen = ({ navigation }) => {
 	const { theme } = useSelector(state => state.theme);
+	const { fetchInformation } = useFirebaseData();
 	const [loading, setLoading] = useState(false);
 	const information = useSelector(state => state.information);
-	const dispatch = useDispatch();
-	const renderItems = [];
+	const [renderItems, setRenderItems] = useState([]);
 
 	useEffect(() => {
-		fetchInfo(dispatch)
-	}, [])
+		setLoading(true);
+		fetchInformation().finally(() => setLoading(false));
+	}, []);
 
-	Object.keys(information.data).forEach((item, i) => {
-		renderItems.push(
-			<Card 
-				data={{ left: <Text style={{fontSize: 16, fontWeight: 600, color: theme.colors.text,}}>{information.data[item].title}</Text> }} 
-				onPress={() => {
-					item.url ? 
-						navigation.navigate('pdfviewer', {url: information.data[item].url})
-					: navigation.push('Dynamic', {screenName:information.data[item].title, data: information.data[item].list})
-				}}
-				key={i}
-			/>
-		)
-		
-	})
+	useEffect(() => {
+		if (information) {
+			const items = Object.keys(information).map((key, i) => {
+				return (
+					<Card 
+						data={{ left: <Text style={{fontSize: 16, fontWeight: 600, color: theme.colors.text,}}>{information[key].title}</Text> }} 
+						onPress={() => {
+							information[key].url ? 
+								navigation.navigate('pdfviewer', {url: information[key].url})
+							: information[key].list ? navigation.push('Dynamic', {screenName:information[key].title, data: information[key].list})
+							: null
+						}}
+						key={i}
+					/>
+				)
+			});
+			setRenderItems(items);
+		}
+	}, [information]);
 
 	return (
 		<View style={{flex: 1}}>
-			<ScrollView>
+			<ScrollView style={{flex: 1}}>
 				{
 					loading ? 
-						<ActivityIndicator size={'large'} color={theme.colors.text} /> 
-					: renderItems.length === 0 ? 
-						<Text style={{textAlign: 'center', color: theme.colors.placeholder, fontSize: 20,}}>Тут поки нічого немає...</Text> 
+						<ActivityIndicator size={'large'} color={'white'} /> 
 					: renderItems
 				}
 			</ScrollView>

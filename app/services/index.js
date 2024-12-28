@@ -1,11 +1,10 @@
 import { doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../../firebaseConfig";
 import { setUser, setLoading } from "../store/slices/authSlice";
-import { setServicesData } from "../store/slices/servicesSlice";
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import { setInfoData } from "../store/slices/informationSlice";
 
+// userServices
 export const fetchUserData = async (id, email, token, dispatch) => {
     try {
         const userRef = doc(FIREBASE_DB, "/users", id);
@@ -24,48 +23,22 @@ export const fetchUserData = async (id, email, token, dispatch) => {
     }
 }
 
-export const fetchServices = async (dispatch) => {
+export const fetchData = async (path) => {
     try {
-        const services = {};
+        const data = {};
 
-        const querySnapshot = await getDocs(collection(FIREBASE_DB, "/services"));        
+        const querySnapshot = await getDocs(collection(FIREBASE_DB, path));        
         querySnapshot.forEach((doc) => {
-            services[doc.id] = doc.data();
+            data[doc.id] = doc.data();
         });
 
-        if (services) {
-            dispatch(setServicesData({   
-                // ...services,             
-                warranty: services.warranty,
-                easypro: services.easypro,
-                devicesetup: services.devicesetup,
-                hanguptv: services.hanguptv
-            }))
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-export const fetchInfo = async (dispatch) => {
-    try {
-        const info = {};
-
-        const querySnapshot = await getDocs(collection(FIREBASE_DB, "/information"));        
-        querySnapshot.forEach((doc) => {
-            info[doc.id] = doc.data();
-        });
-
-        if (info) {
-            dispatch(setInfoData({
-                ...info
-            }));
-        }
+        if (data) return(data);
     } catch (error) {
         console.log(error)
     }
 }
 
-export const updateEasyProPricelist = async (dispatch) => {
+export const updateEasyPro = async () => {
     try {
         const result = await DocumentPicker.getDocumentAsync({
             type: 'application/json', 
@@ -79,7 +52,6 @@ export const updateEasyProPricelist = async (dispatch) => {
                 await updateDoc(docRef, {
                     pricelist: JSON.parse(fileContent)
                 });
-                fetchServices(dispatch)
                 alert("arrayOne успішно оновлено!");
             } catch (error) {
                 alert("Помилка при оновленні arrayOne:", error);

@@ -1,20 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    loading: false,
-    data: {}
-}
 
 const servicesSlice = createSlice({
     name: 'services',
-    initialState,
+    initialState: {},
     reducers: {
-        setServicesLaoding: (state, action) => {
-            state.loading = action.payload;
-        },
         setServicesData: (state, action) => {
             for (let key in action.payload) {
-                state.data[key] = action.payload[key];                
+                state[key] = action.payload[key];                
             }            
         }
     }

@@ -6,7 +6,7 @@ import Input from '../components/Input';
 import { useSelector } from 'react-redux';
 
 const WarrantyScreen = () => {
-    const data = useSelector(state => state.services.data.warranty);
+    const data = useSelector(state => state.services.warranty);
     const { theme } = useSelector(state => state.theme);
     const [devicePrice, setDevicePrice] = useState(0);
     const [renderItems, setRenderItems] = useState([]);

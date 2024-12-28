@@ -1,41 +1,49 @@
 import { ActivityIndicator, ScrollView, Text } from 'react-native'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchServices } from '../services'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import Card from '../components/Card'
+import { useFirebaseData } from '../hooks/useFirebaseData'
 
 const ServicesScreen = ({ navigation }) => {
-	const dispatch = useDispatch();
+	const {fetchServices} = useFirebaseData();
 	const services = useSelector(state => state.services);
 	const { theme } = useSelector(state => state.theme);
-	const renderItems = [];
+	const [renderItems, setRenderItems] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		fetchServices(dispatch);
+		setLoading(true);
+		fetchServices().finally(() => setLoading(false))
 	}, []);
 
-	for (let key in services.data) {
-		renderItems.push(
-			<Card data={{
-					left: <Text style={{fontSize: 16, fontWeight: 700, color: theme.colors.text,}}>{services.data[key].title}</Text>,
-					payload: services.data[key].url ? services.data[key].url : null
-				}} 
-				onPress={
-					() => {
-						services.data[key].url ? 
-							navigation.navigate('pdfviewer', {url: services.data[key].url})
-						: navigation.navigate(key);
+	useEffect(() => {
+		if (services) {
+			const items = Object.keys(services).map(key => {
+				return (
+					<Card data={{
+						left: <Text style={{fontSize: 16, fontWeight: 700, color: theme.colors.text,}}>{services[key].title}</Text>,
+						payload: services[key].url ? services[key].url : null
+					}} 
+					onPress={
+						() => {
+							services[key].url ? 
+								navigation.navigate('pdfviewer', {url: services[key].url})
+							: navigation.navigate(key);
+						}
 					}
-				}
-				key={key} 
-			/>
-		);		
-	}	
+					key={key} 
+				/>
+				)
+			});
+
+			setRenderItems(items);
+		}
+	}, [services]);
 
 	return (
 		<ScrollView>
 			{
-				services.loading ? <ActivityIndicator size={'large'} color={theme.colors.text} /> : renderItems
+				loading ? <ActivityIndicator size={'large'} color={theme.colors.text} /> : renderItems
 			}
 		</ScrollView>
 	)

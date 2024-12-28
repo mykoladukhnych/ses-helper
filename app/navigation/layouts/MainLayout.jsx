@@ -12,11 +12,11 @@ import OrdersScreen from '../../screens/OrdersScreen';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateEasyProPricelist } from '../../services';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import PDFViewer from '../../screens/PDFViewer';
 import DynamicScreen from '../../screens/DynamicScreen';
+import { useFirebaseData } from '../../hooks/useFirebaseData';
 
 const MainLayoutStack = createNativeStackNavigator();
 const MainLayoutTabs = createBottomTabNavigator();
@@ -133,7 +133,7 @@ const MainTabs = () => {
 const MainLayout = () => {
     const {theme} = useSelector(state => state.theme);
     const {user} = useSelector(state => state.auth);
-    const dispatch = useDispatch(); 
+    const { updateEasyProPricelist } = useFirebaseData();
 
     return(
         <MainLayoutStack.Navigator>
@@ -158,7 +158,7 @@ const MainLayout = () => {
                             <>
                                 {
                                     user.admin ? 
-                                        <Pressable style={{marginRight: 15}} onPress={() => {updateEasyProPricelist(dispatch)}} >
+                                        <Pressable style={{marginRight: 15}} onPress={() => {updateEasyProPricelist()}} >
                                             <MaterialCommunityIcons name="database-refresh" size={24} color={theme.colors.text} />
                                         </Pressable>
                                     : null
