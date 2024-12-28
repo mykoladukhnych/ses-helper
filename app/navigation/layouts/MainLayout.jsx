@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateEasyProPricelist } from '../../services';
 import { useNavigation } from '@react-navigation/native';
 import PDFViewer from '../../screens/PDFViewer';
+import DynamicScreen from '../../screens/DynamicScreen';
 
 const MainLayoutStack = createNativeStackNavigator();
 const MainLayoutTabs = createBottomTabNavigator();
@@ -132,7 +133,6 @@ const MainTabs = () => {
 const MainLayout = () => {
     const {theme} = useSelector(state => state.theme);
     const {user} = useSelector(state => state.auth);
-    const navigation = useNavigation();   
     const dispatch = useDispatch(); 
 
     return(
@@ -180,6 +180,14 @@ const MainLayout = () => {
                     headerTitle: 'Налаштування', 
                     headerTitleAlign: 'center'
                 }} 
+            />
+            <MainLayoutStack.Screen 
+                name='Dynamic' 
+                component={DynamicScreen}
+                options={
+                    ({ route }) => ({ headerTitle: () => ( <Text style={{fontSize: 20, fontWeight: 700, color: theme.colors.text}}>{route.params?.screenName || 'Default Title'}</Text> ), headerTitleAlign: 'center', })
+                }
+
             />
         </MainLayoutStack.Navigator>
     )

@@ -20,8 +20,13 @@ const ServicesScreen = ({ navigation }) => {
 					left: <Text style={{fontSize: 16, fontWeight: 700, color: theme.colors.text,}}>{services.data[key].title}</Text>,
 					payload: services.data[key].url ? services.data[key].url : null
 				}} 
-				screenName={key === 'warranty' || key === 'easypro' ? key : 'pdfviewer'} 
-				navigation={navigation} 
+				onPress={
+					() => {
+						services.data[key].url ? 
+							navigation.navigate('pdfviewer', {url: services.data[key].url})
+						: navigation.navigate(key);
+					}
+				}
 				key={key} 
 			/>
 		);		

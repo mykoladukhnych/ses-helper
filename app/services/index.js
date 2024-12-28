@@ -1,9 +1,10 @@
 import { doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../../firebaseConfig";
 import { setUser, setLoading } from "../store/slices/authSlice";
-import { setServices } from "../store/slices/servicesSlice";
+import { setServicesData } from "../store/slices/servicesSlice";
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
+import { setInfoData } from "../store/slices/informationSlice";
 
 export const fetchUserData = async (id, email, token, dispatch) => {
     try {
@@ -33,13 +34,31 @@ export const fetchServices = async (dispatch) => {
         });
 
         if (services) {
-            dispatch(setServices({   
+            dispatch(setServicesData({   
                 // ...services,             
                 warranty: services.warranty,
                 easypro: services.easypro,
                 devicesetup: services.devicesetup,
                 hanguptv: services.hanguptv
             }))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const fetchInfo = async (dispatch) => {
+    try {
+        const info = {};
+
+        const querySnapshot = await getDocs(collection(FIREBASE_DB, "/information"));        
+        querySnapshot.forEach((doc) => {
+            info[doc.id] = doc.data();
+        });
+
+        if (info) {
+            dispatch(setInfoData({
+                ...info
+            }));
         }
     } catch (error) {
         console.log(error)
