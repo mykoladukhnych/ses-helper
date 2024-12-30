@@ -59,6 +59,3 @@ const styles = StyleSheet.create({
 });
 
 export default NonWarrantyRepairScreen;
-
-
-//   source={{ uri: 'https://www.samsung.com/ua/support/out-of-warranty/'}}

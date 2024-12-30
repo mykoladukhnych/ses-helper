@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Input from '../components/Input';
 import Accordion from '../components/Accordion';
@@ -19,7 +19,7 @@ const EasyproScreen = () => {
 			return (
 				<Accordion 
 					header={{
-						left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text}}>{item.model}</Text>
+						left: <Text style={{ ...styles.acordionTitle, color: theme.colors.text}}>{item.model}</Text>
 					}} 	
 					content={{
 						corners: {},
@@ -28,12 +28,12 @@ const EasyproScreen = () => {
 								return (
 									<Accordion 
 										header={{
-											left: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{data.description[key].title}</Text>, 
-											right: <Text style={{fontSize: 14, fontWeight: 700, color: theme.colors.text,}}>{item[key].toFixed(2)}</Text>
+											left: <Text style={{...styles.acordionTitle, color: theme.colors.text,}}>{data.description[key].title}</Text>, 
+											right: <Text style={{...styles.acordionTitle, color: theme.colors.text,}}>{item[key].toFixed(2)}</Text>
 										}}
 										content={{
 											corners: {},
-											data: data.description[key].descr.map((el, i) => <Text style={{fontSize: 12, fontWeight: 400, marginVertical: 5, color: theme.colors.text,}} key={i}>{el}</Text>)
+											data: data.description[key].descr.map((el, i) => <Text style={{...styles.accordionText, color: theme.colors.text,}} key={i}>{el}</Text>)
 										}}
 										key={i}/>
 								)
@@ -55,7 +55,7 @@ const EasyproScreen = () => {
 	}, [data, model]);
 
 	return (
-		<View style={{flex: 1}}>
+		<View style={styles.container}>
 			<Input
 				placeholder={'Введіть модель...'}	
 				setOutsideState={setModel}	
@@ -76,3 +76,18 @@ const EasyproScreen = () => {
 }
 
 export default EasyproScreen;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1
+	},
+	acordionTitle: {
+		fontSize: 14, 
+		fontWeight: 700,
+	},
+	accordionText: {
+		fontSize: 12, 
+		fontWeight: 400, 
+		marginVertical: 5, 
+	}
+})

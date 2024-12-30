@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { Text, ScrollView, StyleSheet } from 'react-native'
 import React from 'react'
 import Card from '../components/Card';
 import { useSelector } from 'react-redux';
@@ -8,13 +8,13 @@ const DynamicScreen = ({route, navigation}) => {
     const {theme} = useSelector(state => state.theme)
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
             {
                 data.data.map((item, i) => {
                     return (
                         <Card 
                             data={{
-                                left: <Text style={{fontSize: 16, fontWeight: 600, color: theme.colors.text,}}>{item.title}</Text>
+                                left: <Text style={{ ...styles.cardTitle, color: theme.colors.text }}>{item.title}</Text>
                             }}
                             onPress={() => {
                                 item.url ? 
@@ -30,4 +30,14 @@ const DynamicScreen = ({route, navigation}) => {
     )
 }
 
-export default DynamicScreen
+export default DynamicScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
+    cardTitle: {
+        fontSize: 16, 
+        fontWeight: 600, 
+    }
+})

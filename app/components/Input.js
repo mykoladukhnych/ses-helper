@@ -1,10 +1,9 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
-
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 
-const Input = ({type='text', keyboardType, setOutsideState, placeholder, style={container: {}, input: {}}}) => {
+const Input = ({type='text', keyboardType, setOutsideState, placeholder, require, style={container: {}, input: {}}}) => {
     const [value, setValue] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { currentTheme, theme } = useSelector(state => state.theme);
