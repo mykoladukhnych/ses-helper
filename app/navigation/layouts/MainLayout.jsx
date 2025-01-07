@@ -170,8 +170,13 @@ const MainLayout = () => {
             <MainLayoutStack.Screen 
                 name='pdfviewer' 
                 component={PDFViewer} 
-                options={{headerTitle: 'PDF Viewer', 
-                headerTitleAlign: 'center'}} 
+                options={{
+                    headerTitle: 'PDF Viewer', 
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontSize: 15
+                    }
+                }} 
             />
             <MainLayoutStack.Screen 
                 name='Settings' 

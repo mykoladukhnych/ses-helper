@@ -24,7 +24,7 @@ const InfoScreen = ({ navigation }) => {
 						data={{ left: <Text style={{fontSize: 16, fontWeight: 600, color: theme.colors.text,}}>{information[key].title}</Text> }} 
 						onPress={() => {
 							information[key].url ? 
-								navigation.navigate('pdfviewer', {url: information[key].url})
+								navigation.navigate('pdfviewer', {url: information[key].url, title: information[key].title})
 							: information[key].list ? navigation.push('Dynamic', {screenName:information[key].title, data: information[key].list})
 							: null
 						}}

@@ -1,8 +1,24 @@
-import { View, ActivityIndicator, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, ActivityIndicator, StyleSheet, Pressable } from 'react-native'
+import React, { useEffect } from 'react'
 import WebView from 'react-native-webview'
+import { useSelector } from 'react-redux';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-const PDFViewer = ({ route }) => {
+const PDFViewer = ({ route, navigation }) => {
+
+    const { theme } = useSelector(state => state.theme);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: route.params.title, 
+            headerRight: () => (
+                <Pressable style={{marginRight: 15}} onPress={() => {navigation.replace("pdfviewer", {url: route.params.url, title: route.params.title})}} >
+                    <MaterialCommunityIcons name="reload" size={24} color={theme.colors.text} />
+                </Pressable>
+            ),
+        });
+    },[navigation])
+
     return (
         <View style={styles.container}>
             <WebView

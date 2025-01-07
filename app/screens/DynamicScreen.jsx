@@ -18,7 +18,7 @@ const DynamicScreen = ({route, navigation}) => {
                             }}
                             onPress={() => {
                                 item.url ? 
-                                    navigation.navigate('pdfviewer', {url: item.url})
+                                    navigation.navigate('pdfviewer', {url: item.url, title: item.title})
                                 : navigation.push('Dynamic', {screenName: item.title, data: item.list})
                             }}
                             key={i}

@@ -27,7 +27,7 @@ const ServicesScreen = ({ navigation }) => {
 					onPress={
 						() => {
 							services[key].url ? 
-								navigation.navigate('pdfviewer', {url: services[key].url})
+								navigation.navigate('pdfviewer', {url: services[key].url, title: services[key].title})
 							: navigation.navigate(key);
 						}
 					}
